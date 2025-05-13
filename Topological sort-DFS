@@ -1,56 +1,60 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define MAX 100
+#define MAX_NODES 100
 
-int graph[MAX][MAX];
-int visited[MAX];
-int stack[MAX];
-int top = -1;
-int vertices;
+int adj[MAX_NODES][MAX_NODES];
+int visited[MAX_NODES];
+int order[MAX_NODES];
+int n;
+int idx = 0;
 
-void dfs(int v) {
-    visited[v] = 1;
-    for (int i = 0; i < vertices; i++) {
-        if (graph[v][i] && !visited[i]) {
+void dfs(int node) {
+    visited[node] = 1;
+    for (int i = 0; i < n; i++) {
+        if (adj[node][i] && !visited[i]) {
             dfs(i);
         }
     }
-    stack[++top] = v;
+    order[idx++] = node;
 }
 
 void topologicalSort() {
-    for (int i = 0; i < vertices; i++) {
+    for (int i = 0; i < n; i++) {
+        visited[i] = 0;
+    }
+    for (int i = 0; i < n; i++) {
         if (!visited[i]) {
             dfs(i);
         }
     }
-
-    while (top >= 0) {
-        printf("%d ", stack[top--]);
+    for (int i = n - 1; i >= 0; i--) {
+        printf("%d ", order[i]);
     }
     printf("\n");
 }
 
 int main() {
-    int edges, u, v;
+    int m, u, v;
 
-    printf("Enter number of vertices: ");
-    scanf("%d", &vertices);
-
+    printf("Enter number of nodes: ");
+    scanf("%d", &n);
     printf("Enter number of edges: ");
-    scanf("%d", &edges);
+    scanf("%d", &m);
 
-    for (int i = 0; i < vertices; i++)
-        for (int j = 0; j < vertices; j++)
-            graph[i][j] = 0;
-
-    printf("Enter edges (from to):\n");
-    for (int i = 0; i < edges; i++) {
-        scanf("%d %d", &u, &v);
-        graph[u][v] = 1;
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            adj[i][j] = 0;
+        }
     }
 
+    printf("Enter the edges (u v):\n");
+    for (int i = 0; i < m; i++) {
+        scanf("%d %d", &u, &v);
+        adj[u][v] = 1;
+    }
+
+    printf("Topological Sort: ");
     topologicalSort();
 
     return 0;
