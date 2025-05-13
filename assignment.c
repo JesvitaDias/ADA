@@ -1,10 +1,10 @@
 #include <stdio.h>
 #include <limits.h>
 
-int n;                      // Number of jobs/persons
-int cost[10][10];           // Cost matrix
-int assigned[10];           // Track assigned jobs
-int minCost = INT_MAX;      // Store minimum cost
+int n;                      
+int cost[10][10];          
+int assigned[10];           
+int minCost = INT_MAX;      
 
 void findMinCost(int person, int currentCost) {
     if (person == n) {
